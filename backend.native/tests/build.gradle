@@ -146,7 +146,12 @@ def tasksOf(Closure<Task> filter) {
 }
 
 run {
-    def tasks = tasksOf { it instanceof RunKonanTest && !(it instanceof RunStdlibTest) }
+    def tasks = tasksOf {
+        (it instanceof RunKonanTest ||
+         it instanceof RunStandaloneKonanTest ||
+         it instanceof LinkKonanTest) &&
+       !(it instanceof RunStdlibTest ||
+         it instanceof RunExternalTestGroup) }
     dependsOn(tasks)
 }
 
